@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
+    },
+    isOnline: {
+        type: Boolean,
+        default: true,
     },
     role: {
         type: String,

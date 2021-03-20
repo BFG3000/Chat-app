@@ -1,10 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userReducer } from '../reducers/userReducer';
+import { authReducer } from '../reducers/userReducer';
 
 const reducer = combineReducers({
-    user: userReducer,
+    auth: authReducer,
 });
 // TODO maybe i should add cart field to user database and the two when he log in
 let initialState = {};

@@ -1,16 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './register.css';
-const Register = () => {
+import { toastError } from '../../util/Notification/toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser, clearErrors } from '../../actions/userActions';
+
+const Register = ({ history }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [avatar, setAvatar] = useState('');
-    const [avatarPreview, setAvatarPreview] = useState('');
+    const [avatarPreview, setAvatarPreview] = useState('/logo192.png');
 
-    const loading = false;
+    const dispatch = useDispatch();
 
-    const registerHandler = () => {};
-    const onChange = () => {};
+    const { isAuthenticated, lrError, loading } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+        //if already logged in go to home page
+        if (isAuthenticated) {
+            history.push('/');
+        }
+        if (lrError) {
+            toastError(lrError);
+            dispatch(clearErrors());
+        }
+    }, [dispatch, history, isAuthenticated, lrError]);
+
+    const registerHandler = (e) => {
+        e.preventDefault();
+        const data = {
+            name,
+            email,
+            password,
+            avatar,
+        };
+        dispatch(registerUser(data));
+    };
+
+    const onChange = (e) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setAvatarPreview(reader.result);
+                setAvatar(reader.result);
+            }
+        };
+
+        reader.readAsDataURL(e.target.files[0]);
+    };
     return (
         <div className="main_login">
             <div className="col-10 col-lg-5">
@@ -18,9 +56,23 @@ const Register = () => {
                 <div className="account-wall">
                     <img className="profile-img" src="./logo192.png" alt="logo" />
                     <form className="form-signin" encType="multipart/form-data" onSubmit={registerHandler}>
-                        <input type="name" className="form-control" value={name} name="name" placeholder="Name" onChange={onChange} />
+                        <input
+                            type="name"
+                            className="form-control"
+                            value={name}
+                            name="name"
+                            placeholder="Name"
+                            onChange={(e) => setName(e.target.value)}
+                        />
 
-                        <input type="email" className="form-control" value={email} name="email" placeholder="Email" onChange={onChange} />
+                        <input
+                            type="email"
+                            className="form-control"
+                            value={email}
+                            name="email"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
 
                         <input
                             type="password"
@@ -28,7 +80,7 @@ const Register = () => {
                             value={password}
                             name="password"
                             placeholder="Password"
-                            onChange={onChange}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
 
                         <div className="form-group">
