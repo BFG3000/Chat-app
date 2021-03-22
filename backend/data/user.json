@@ -1,0 +1,37 @@
+[
+    {
+        "name": "jesus",
+        "email": "j@gg.com",
+        "password": "123456"
+    },
+    {
+        "name": "betty",
+        "email": "b@re.com",
+        "password": "123456"
+    },
+    {
+        "name": "subaru",
+        "email": "s@cry.com",
+        "password": "123456"
+    },
+    {
+        "name": "rem",
+        "email": "r@who.com",
+        "password": "123456"
+    },
+    {
+        "name": "echidna",
+        "email": "e@fucku.com",
+        "password": "123456"
+    },
+    {
+        "name": "otto",
+        "email": "o@re.com",
+        "password": "123456"
+    },
+    {
+        "name": "puck",
+        "email": "p@pain.com",
+        "password": "123456"
+    }
+]

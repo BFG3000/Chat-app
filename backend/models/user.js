@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema({
     avatar: {
         public_id: {
             type: String,
-            required: true,
+            default: crypto.randomInt(1000000),
         },
         url: {
             type: String,
-            required: true,
+            default: 'https://thumbs.dreamstime.com/z/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg',
         },
     },
     isOnline: {
@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+
     resetPasswordToken: String,
     resetPasswordExpire: Date,
 });
