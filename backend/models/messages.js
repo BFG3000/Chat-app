@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
     message: {
         type: String,
+        required: true,
         maxlength: [1000, 'max length is 1000 characters'],
     },
 
@@ -14,7 +15,7 @@ const messageSchema = new mongoose.Schema({
 
     conversationId:{
         type: mongoose.Schema.Types.ObjectId,
-        // required: true,
+        required: true,
         ref: 'Conversation',
     },
 
@@ -22,7 +23,7 @@ const messageSchema = new mongoose.Schema({
         type: Date,
         default:Date.now,
     },
-
+    //TODO
     received: {
         type: Boolean,
         default: false,

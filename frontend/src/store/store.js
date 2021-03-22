@@ -2,11 +2,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { authReducer } from '../reducers/userReducer';
-
+import { chatListReducer, chatContentReducer } from '../reducers/chatReducers';
 const reducer = combineReducers({
     auth: authReducer,
+    chatList: chatListReducer,
+    chatContent: chatContentReducer,
 });
-// TODO maybe i should add cart field to user database and the two when he log in
+
 let initialState = {};
 
 const middleware = [thunk];

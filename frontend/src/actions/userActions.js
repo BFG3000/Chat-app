@@ -12,6 +12,7 @@ import {
     LOAD_USER_FAIL,
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
+
     // //update profile
     // UPDATE_PROFILE_REQUEST,
     // UPDATE_PROFILE_SUCCESS,

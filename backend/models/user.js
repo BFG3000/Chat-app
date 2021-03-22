@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'your password must be at least 6 characters'],
         select: false,
     },
+    //TODO Implement CLOUDINARY for image upload later
     avatar: {
         public_id: {
             type: String,

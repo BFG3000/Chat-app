@@ -11,6 +11,10 @@ const messageSchema = new mongoose.Schema({
         required: true,
         ref: 'User',
     },
+    //sort conversions
+    last_updated: {
+        type: Date,
+    },
 });
 
 module.exports = mongoose.model('Conversation', messageSchema);

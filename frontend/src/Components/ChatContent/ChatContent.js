@@ -1,7 +1,10 @@
 import React, { useState, createRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '../Avatar/Avatar';
 import './chatContent.css';
 import ChatItem from './ChatItem';
+import { clearErrors } from '../../actions/chatActions';
+import { toastError } from '../../util/Notification/toast';
 
 const chatItms = [
     {
@@ -49,33 +52,28 @@ const chatItms = [
 ];
 
 const ChatContent = () => {
+    const dispatch = useDispatch();
+
+    const contact =localStorage.getItem('contactInfo') ? JSON.parse(localStorage.getItem('contactInfo')):{};
+
+    const { chatContent, loading, error } = useSelector((state) => state.chatContent);
+    const { user } = useSelector((state) => state.auth);
+    
     const messagesEndRef = createRef(null);
-    const [chatContent, setChatContent] = useState(chatItms);
+
+    const [chat, setChat] = useState(chatItms);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 13) {
-                if (message !== '') {
-                    setChatContent([
-                        ...chatContent,
-                        {
-                            key: 1,
-                            type: '',
-                            msg: message,
-                            image: 'https://pbs.twimg.com/profile_images/1116431270697766912/-NfnQHvh_400x400.jpg',
-                        },
-                    ]);
-                    scrollToBottom();
-                    setMessage('');
-                }
-            }
-        });
+        if (error) {
+            toastError(error);
+            dispatch(clearErrors());
+        }
         const scrollToBottom = () => {
             messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
         };
         scrollToBottom();
-    }, [chatContent, message, messagesEndRef]);
+    }, [dispatch, error, message, messagesEndRef]);
 
     return (
         <div className="chatcontent">
@@ -84,9 +82,9 @@ const ChatContent = () => {
                     <div className="current-chatting-user">
                         <Avatar
                             isOnline="active"
-                            image="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTA78Na63ws7B7EAWYgTr9BxhX_Z8oLa1nvOA&usqp=CAU"
+                            image={contact.image}
                         />
-                        <p>Tim Hover</p>
+                        <p>{contact.name}</p>
                     </div>
                 </div>
                 <div className="blocks">
@@ -105,9 +103,9 @@ const ChatContent = () => {
                             <ChatItem
                                 animationDelay={index + 2}
                                 key={item.key}
-                                user={item.type ? item.type : 'me'}
-                                message={item.msg}
-                                image={item.image}
+                                user={item.author.toString() === user._id.toString() ? 'me' : 'other'}
+                                message={item.message}
+                                // image={}
                             />
                         ))}
                     <div ref={messagesEndRef} />

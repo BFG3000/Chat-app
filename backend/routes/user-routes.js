@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { getChat } = require('../controllers/chatController');
 const { registerUser, getLoggedUser, logOut, loginUser } = require('../controllers/userController');
-const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
+const { isAuthenticatedUser } = require('../middlewares/auth');
 
 //testing api
 router.get('/', getChat);

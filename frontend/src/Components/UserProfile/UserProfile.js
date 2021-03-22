@@ -1,7 +1,10 @@
 import React from 'react';
 import './userProfile.css';
+import {useSelector} from 'react-redux';
 
 const UserProfile = () => {
+
+
     const toggleInfo = (e) => {
         e.target.parentNode.classList.toggle('open');
     };
@@ -15,9 +18,9 @@ const UserProfile = () => {
                 <h4>gg wp ez noobs</h4>
                 <p>CEO & Founder at Highly Inc</p>
             </div>
-            <div className="profile_card">
-                <div className="card_header" onClick={toggleInfo}>
-                    <h4>Information</h4>
+            <div className="profile_card" >
+                <div className="card_header"onClick={toggleInfo}>
+                    <h5>Information</h5>
                     <i className="fa fa-angle-down"></i>
                 </div>
                 <div className="card_content">League is a fun game where every game is jungle gap</div>
