@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const dotenv = require('dotenv');
 connectionDatabase = require('../config/database');
-const user = require('../data/user.json');
+const users = require('../data/user.json');
 const connectDatabase = require('../config/database');
 
 dotenv.config({ path: './config/config.env' });
@@ -13,7 +13,9 @@ const seedProducts = async () => {
         await User.deleteMany();
         console.log('Users are deleted');
 
-        await User.insertMany(user);
+        for (const key in users) {
+            await User.create(users[key]);
+        }
         console.log('All users are added');
         process.exit();
     } catch (error) {
