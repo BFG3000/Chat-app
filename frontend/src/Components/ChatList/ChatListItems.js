@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Avatar from '../Avatar/Avatar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,15 +6,18 @@ import { loadChat } from '../../actions/chatActions';
 import './chatList.css';
 
 const ChatListItems = ({ animationDelay, image, isOnline, name, conversationId }) => {
+    const [active, setActive] = useState(false);
     const dispatch = useDispatch();
 
-    let active = false;
+    if (animationDelay === 1) {
+        dispatch(loadChat(conversationId));
+        localStorage.setItem('contactInfo', JSON.stringify({ name, image, conversationId }));
+    }
 
     const selectChat = (e) => {
-        localStorage.setItem('contactInfo', JSON.stringify({name,image}));
         dispatch(loadChat(conversationId));
-        
-        active = true;
+        localStorage.setItem('contactInfo', JSON.stringify({ name, image, conversationId }));
+        setActive(true);
     };
     return (
         <div style={{ animationDelay: `0.${animationDelay}s` }} onClick={selectChat} className={`chatlist_item ${active ? active : ''}`}>

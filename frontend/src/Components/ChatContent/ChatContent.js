@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '../Avatar/Avatar';
 import './chatContent.css';
 import ChatItem from './ChatItem';
-import { clearErrors } from '../../actions/chatActions';
+import { clearErrors, sendMessage } from '../../actions/chatActions';
 import { toastError } from '../../util/Notification/toast';
 
 const chatItms = [
@@ -54,11 +54,12 @@ const chatItms = [
 const ChatContent = () => {
     const dispatch = useDispatch();
 
-    const contact =localStorage.getItem('contactInfo') ? JSON.parse(localStorage.getItem('contactInfo')):{};
+    const contact = localStorage.getItem('contactInfo') ? JSON.parse(localStorage.getItem('contactInfo')) : {};
 
     const { chatContent, loading, error } = useSelector((state) => state.chatContent);
+
     const { user } = useSelector((state) => state.auth);
-    
+
     const messagesEndRef = createRef(null);
 
     const [chat, setChat] = useState(chatItms);
@@ -75,15 +76,17 @@ const ChatContent = () => {
         scrollToBottom();
     }, [dispatch, error, message, messagesEndRef]);
 
+    const pushMessage = () => {
+        dispatch(sendMessage(message));
+        pushMessage('')
+    };
+
     return (
         <div className="chatcontent">
             <div className="content_header">
                 <div className="blocks">
                     <div className="current-chatting-user">
-                        <Avatar
-                            isOnline="active"
-                            image={contact.image}
-                        />
+                        <Avatar isOnline="active" image={contact.image} />
                         <p>{contact.name}</p>
                     </div>
                 </div>
@@ -105,7 +108,7 @@ const ChatContent = () => {
                                 key={item.key}
                                 user={item.author.toString() === user._id.toString() ? 'me' : 'other'}
                                 message={item.message}
-                                // image={}
+                                image={item.author.toString() === user._id.toString() ? user.avatar.url : contact.image}
                             />
                         ))}
                     <div ref={messagesEndRef} />
@@ -118,7 +121,7 @@ const ChatContent = () => {
                         <i className="fa fa-plus"></i>
                     </button>
                     <input type="text" placeholder="Type a message here" onChange={(e) => setMessage(e.target.value)} value={message} />
-                    <button className="btnSendMsg" id="sendMsgBtn">
+                    <button className="btnSendMsg" id="sendMsgBtn" onClick={pushMessage}>
                         <i className="fa fa-paper-plane"></i>
                     </button>
                 </div>

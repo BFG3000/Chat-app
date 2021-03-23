@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cloudinary = require('cloudinary');
 const fileupload = require('express-fileupload');
-const Pusher = require('pusher');
+// const Pusher = require('pusher');
 //setting up config file
 // if (process.env.NODE_ENV === 'PRODUCTION')
 require('dotenv').config({ path: './config/config.env' });
@@ -22,6 +22,9 @@ const messages = require('./routes/chat-routes');
 //------------------------------------------------------------------
 //app
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+
 //fixed upload problem
 app.use(express.json({ limit: '15mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,13 +36,13 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 //Pusher Config
-const pusher = new Pusher({
-    appId: process.env.APP_ID,
-    key: process.env.KEY,
-    secret: process.env.SECRET,
-    cluster: process.env.CLUSTER,
-    useTLS: process.env.USE_TLS,
-});
+// const pusher = new Pusher({
+//     appId: process.env.APP_ID,
+//     key: process.env.KEY,
+//     secret: process.env.SECRET,
+//     cluster: process.env.CLUSTER,
+//     useTLS: process.env.USE_TLS,
+// });
 
 console.log('=====>', 'Node server');
 console.log('=====>', process.version);
@@ -56,18 +59,18 @@ mongoose
     .then((db) => {
         console.log('DB Connected');
         //watch for changes
-        const messages = db.model('Message');
-        const changeStream = messages.watch();
-        changeStream.on('change', (change) => {
-            console.log(change)
-            if (change.operationType === 'insert') {
-                const messageDetails = change.fullDocument;
-                pusher.trigger('messages', 'inserted', {
-                    name: messageDetails.name,
-                    message: messageDetails.message,
-                });
-            }
-        });
+        // const messages = db.model('Message');
+        // const changeStream = messages.watch();
+        // changeStream.on('change', (change) => {
+        //     console.log(change)
+        //     if (change.operationType === 'insert') {
+        //         const messageDetails = change.fullDocument;
+        //         pusher.trigger('messages', 'inserted', {
+        //             name: messageDetails.name,
+        //             message: messageDetails.message,
+        //         });
+        //     }
+        // });
     })
     .catch((err) => {
         console.log('DB Connection error', err);
@@ -92,6 +95,6 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
     });
 }
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
