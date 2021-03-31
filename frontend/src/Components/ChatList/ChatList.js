@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './chatList.css';
 import ChatListItems from './ChatListItems';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllUserConversations, clearErrors, loadChat } from '../../actions/chatActions';
+import { getAllUserConversations, clearErrors } from '../../actions/chatActions';
 import { toastError } from '../../util/Notification/toast';
 import Loader from '../Loader';
 

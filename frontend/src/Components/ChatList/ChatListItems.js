@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import Avatar from '../Avatar/Avatar';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { loadChat } from '../../actions/chatActions';
 import './chatList.css';
 
@@ -9,14 +9,11 @@ const ChatListItems = ({ animationDelay, image, isOnline, name, conversationId }
     const [active, setActive] = useState(false);
     const dispatch = useDispatch();
 
-    if (animationDelay === 1) {
-        dispatch(loadChat(conversationId));
-        localStorage.setItem('contactInfo', JSON.stringify({ name, image, conversationId }));
-    }
-
     const selectChat = (e) => {
         dispatch(loadChat(conversationId));
+
         localStorage.setItem('contactInfo', JSON.stringify({ name, image, conversationId }));
+
         setActive(true);
     };
     return (

@@ -17,7 +17,7 @@ export const loadChat = (id) => async (dispatch) => {
     try {
         dispatch({ type: GET_CHAT_REQUEST });
 
-        const {data} = await axios.get(`/api/messages/${id}`);
+        const { data } = await axios.get(`/api/messages/${id}`);
 
         dispatch({
             type: GET_CHAT_SUCCESS,
@@ -49,16 +49,22 @@ export const getAllUserConversations = () => async (dispatch) => {
     }
 };
 
-export const sendMessage = (message) => async (dispatch) => {
+export const sendMessage = (message, conversationId) => async (dispatch) => {
     try {
         dispatch({ type: SEND_MESSAGE_REQUEST });
 
-        const { data } = await axios.post('/api/messages');
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        };
 
-        dispatch({ 
+        const { data } = await axios.post('/api/messages', { message, conversationId }, config);
+
+        dispatch({
             type: SEND_MESSAGE_SUCCESS,
-            payload:data.messages
-         });
+            payload: data.messages,
+        });
     } catch (error) {
         dispatch({
             type: SEND_MESSAGE_FAIL,

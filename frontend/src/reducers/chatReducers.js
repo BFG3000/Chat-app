@@ -32,6 +32,25 @@ export const chatListReducer = (state = { chatList: [] }, action) => {
                 loading: false,
                 chatList: null,
             };
+
+        case SEND_MESSAGE_REQUEST:
+            return {
+                ...state,
+                pending: true,
+            };
+
+        case SEND_MESSAGE_SUCCESS:
+            return {
+                ...state,
+                pending: false,
+            };
+
+        case SEND_MESSAGE_FAIL:
+            return {
+                ...state,
+                pending: false,
+            };
+
         case CLEAR_ERRORS:
             return {
                 ...state,
@@ -63,24 +82,6 @@ export const chatContentReducer = (state = { chatContent: [] }, action) => {
                 ...state,
                 loading: false,
                 chatContent: null,
-            };
-
-        case SEND_MESSAGE_REQUEST:
-            return {
-                ...state,
-                pending: true,
-            };
-
-        case SEND_MESSAGE_SUCCESS:
-            return {
-                ...state,
-                pending: false,
-            };
-
-        case SEND_MESSAGE_FAIL:
-            return {
-                ...state,
-                pending: false,
             };
 
         case CLEAR_ERRORS:
